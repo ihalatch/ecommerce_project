@@ -3,6 +3,36 @@
 This project demonstrates a GDPR-compliant e-commerce data pipeline using MySQL, Python, Faker, Apache Kafka, and advanced validation/masking techniques.
 
 
+## Summary Diagram
+
+```mermaid
+flowchart TD
+    A[Data Generation] -->|customers.json| B[Kafka Producer]
+    B -->|Kafka Topic| C[Kafka Consumer]
+    C -->|masked_customers.csv| D[Database]
+    A -->|SQL/ERD| D
+    D -.->|Indexes/ERD| E[Documentation]
+```
+
+
+## Data Pipeline Diagram
+
+```mermaid
+flowchart TD
+    A["Data Generation (generate_data.py)"] -->|"Writes"| B["customers.json"]
+    B -->|"Reads"| C["Kafka Producer (kafka_producer.py)"]
+    C -->|"Sends"| D["Kafka Topic: customers"]
+    D -->|"Consumes"| E["Kafka Consumer (kafka_consumer.py)"]
+    E -->|"Validates & Transforms"| F["MySQL Database"]
+    F -->|"Reads"| G["Analytics Export (export_masked_customers.py)"]
+    G -->|"Applies GDPR Masking"| H["Masked CSV Export"]
+    subgraph "Docker Compose"
+        F
+        D
+    end
+```
+
+
 ## Project Structure
 
 ```
@@ -194,20 +224,3 @@ docker exec -it $(docker ps -q -f ancestor=confluentinc/cp-kafka:7.4.0) \
 
 
 
-
-## Data Pipeline Diagram
-
-```mermaid
-flowchart TD
-    A["Data Generation (generate_data.py)"] -->|"Writes"| B["customers.json"]
-    B -->|"Reads"| C["Kafka Producer (kafka_producer.py)"]
-    C -->|"Sends"| D["Kafka Topic: customers"]
-    D -->|"Consumes"| E["Kafka Consumer (kafka_consumer.py)"]
-    E -->|"Validates & Transforms"| F["MySQL Database"]
-    F -->|"Reads"| G["Analytics Export (export_masked_customers.py)"]
-    G -->|"Applies GDPR Masking"| H["Masked CSV Export"]
-    subgraph "Docker Compose"
-        F
-        D
-    end
-```
