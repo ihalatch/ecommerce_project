@@ -1,0 +1,8 @@
+mysql-connector-python
+Faker
+kafka-python
+python-dotenv
+loguru
+pycountry
+phonenumbers
+postal 
