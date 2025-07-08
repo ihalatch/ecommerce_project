@@ -12,6 +12,7 @@ flowchart TD
     C -->|masked_customers.csv| D[Database]
     A -->|SQL/ERD| D
     D -.->|Indexes/ERD| E[Documentation]
+
 ```
 
 
@@ -194,7 +195,7 @@ services:
     image: mysql:8.0
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: example
+      MYSQL_ROOT_PASSWORD: 
       MYSQL_DATABASE: ecommerce_db
     ports:
       - "3306:3306"
